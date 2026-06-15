@@ -2,13 +2,13 @@ import SwiftUI
 
 struct ExploreView: View {
     @EnvironmentObject private var favoritesStore: FavoritesStore
-    @StateObject private var detailProvider = HomeViewModel()
+    @ObservedObject var viewModel: HomeViewModel
     @State private var searchText = ""
     @State private var selectedFilter: ExploreFilter = .all
 
-    private let foodSuggestions = MockDailyData.foodSuggestions
-    private let activities = MockDailyData.activities
-    private let highlights = MockDailyData.newsItems
+    init(viewModel: HomeViewModel = HomeViewModel()) {
+        self.viewModel = viewModel
+    }
 
     var body: some View {
         NavigationStack {
@@ -224,7 +224,7 @@ struct ExploreView: View {
     }
 
     private var foodItems: [ExploreItem] {
-        foodSuggestions.map { item in
+        viewModel.foodSuggestions.map { item in
             ExploreItem(
                 id: item.id,
                 title: item.name,
@@ -233,13 +233,13 @@ struct ExploreView: View {
                 metadata: "\(item.distance)\nStar \(item.rating)",
                 symbolName: "fork.knife.circle.fill",
                 tint: .orange,
-                page: detailProvider.foodDetailPage(for: item)
+                page: viewModel.foodDetailPage(for: item)
             )
         }
     }
 
     private var activityItems: [ExploreItem] {
-        activities.map { item in
+        viewModel.activities.map { item in
             ExploreItem(
                 id: item.id,
                 title: item.title,
@@ -248,13 +248,13 @@ struct ExploreView: View {
                 metadata: item.duration,
                 symbolName: item.symbolName,
                 tint: .green,
-                page: detailProvider.activityDetailPage(for: item)
+                page: viewModel.activityDetailPage(for: item)
             )
         }
     }
 
     private var newsItems: [ExploreItem] {
-        highlights.map { item in
+        viewModel.newsItems.map { item in
             ExploreItem(
                 id: item.id,
                 title: item.title,
@@ -263,13 +263,21 @@ struct ExploreView: View {
                 metadata: item.time,
                 symbolName: "mappin.and.ellipse",
                 tint: .teal,
-                page: detailProvider.newsDetailPage(for: item)
+                page: viewModel.newsDetailPage(for: item)
             )
         }
     }
 
     private var savedItems: [ExploreItem] {
-        favoritesStore.savedItems.map { page in
+        let currentPages = viewModel.foodSuggestions.map { viewModel.foodDetailPage(for: $0) }
+            + viewModel.activities.map { viewModel.activityDetailPage(for: $0) }
+            + viewModel.newsItems.map { viewModel.newsDetailPage(for: $0) }
+
+        let visibleCurrentPages = currentPages.filter { favoritesStore.isFavorite($0.favoriteID) }
+        let currentIDs = Set(visibleCurrentPages.map(\.id))
+        let fallbackPages = favoritesStore.savedItems.filter { !currentIDs.contains($0.id) }
+
+        return (visibleCurrentPages + fallbackPages).map { page in
             ExploreItem(
                 id: "saved-\(page.id)",
                 title: page.title,

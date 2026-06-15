@@ -1,23 +1,28 @@
 import SwiftUI
 
 struct HomeView: View {
-    @StateObject private var viewModel = HomeViewModel()
+    @EnvironmentObject private var locationManager: LocationManager
+    @ObservedObject var viewModel: HomeViewModel
+
+    init(viewModel: HomeViewModel = HomeViewModel()) {
+        self.viewModel = viewModel
+    }
 
     var body: some View {
         NavigationStack {
             ScrollView {
-                LazyVStack(alignment: .leading, spacing: 18) {
+                LazyVStack(alignment: .leading, spacing: DesignSystem.Spacing.large) {
                     content
                 }
-                .padding(.horizontal, 20)
-                .padding(.top, 16)
-                .padding(.bottom, 28)
+                .padding(.horizontal, DesignSystem.Padding.screenHorizontal)
+                .padding(.top, DesignSystem.Spacing.medium)
+                .padding(.bottom, DesignSystem.Spacing.xLarge)
             }
             .refreshable {
-                await viewModel.refresh()
+                await viewModel.refresh(locationManager: locationManager)
             }
             .task {
-                await viewModel.loadIfNeeded()
+                await viewModel.loadIfNeeded(locationManager: locationManager)
             }
             .background(Color(.systemGroupedBackground))
             .navigationTitle("Today")
@@ -45,7 +50,7 @@ struct HomeView: View {
         case .error(let message):
             ErrorStateView(message: message) {
                 Task {
-                    await viewModel.refresh()
+                    await viewModel.refresh(locationManager: locationManager)
                 }
             }
         }
@@ -103,11 +108,25 @@ struct HomeView: View {
                         .foregroundStyle(.secondary)
                         .fixedSize(horizontal: false, vertical: true)
 
-                    MetricPill(text: "\(viewModel.weather.rainChance)% rain chance", systemImage: "drop.fill")
+                    ViewThatFits(in: .horizontal) {
+                        HStack(spacing: 8) {
+                            weatherMetrics
+                        }
+
+                        VStack(alignment: .leading, spacing: 8) {
+                            weatherMetrics
+                        }
+                    }
                 }
             }
         }
         .buttonStyle(.plain)
+    }
+
+    @ViewBuilder
+    private var weatherMetrics: some View {
+        MetricPill(text: "\(viewModel.weather.rainChance)% rain chance", systemImage: "drop.fill")
+        MetricPill(text: viewModel.weatherSourceLabel, systemImage: viewModel.weather.isLive ? "dot.radiowaves.left.and.right" : "shippingbox.fill")
     }
 
     private var recommendationCard: some View {
@@ -131,7 +150,13 @@ struct HomeView: View {
     private var foodCard: some View {
         CardContainer(tint: .orange) {
             VStack(alignment: .leading, spacing: 14) {
-                SectionTitle(title: "Food Suggestions", systemImage: "fork.knife", tint: .orange)
+                sourceHeader(
+                    title: "Food Suggestions",
+                    systemImage: "fork.knife",
+                    tint: .orange,
+                    sourceText: viewModel.foodSourceLabel,
+                    sourceImage: viewModel.foodSuggestions.contains { $0.isFromLiveSearch } ? "map.fill" : "shippingbox.fill"
+                )
 
                 VStack(spacing: 14) {
                     ForEach(viewModel.foodSuggestions) { item in
@@ -154,7 +179,13 @@ struct HomeView: View {
     private var newsCard: some View {
         CardContainer(tint: .teal) {
             VStack(alignment: .leading, spacing: 14) {
-                SectionTitle(title: "Local News", systemImage: "newspaper.fill", tint: .teal)
+                sourceHeader(
+                    title: "Local News",
+                    systemImage: "newspaper.fill",
+                    tint: .teal,
+                    sourceText: viewModel.newsSourceLabel,
+                    sourceImage: viewModel.newsItems.contains { $0.isFromLiveSource } ? "dot.radiowaves.left.and.right" : "shippingbox.fill"
+                )
 
                 VStack(spacing: 14) {
                     ForEach(viewModel.newsItems) { item in
@@ -177,7 +208,13 @@ struct HomeView: View {
     private var activitiesCard: some View {
         CardContainer(tint: .green) {
             VStack(alignment: .leading, spacing: 14) {
-                SectionTitle(title: "Things To Do", systemImage: "figure.walk", tint: .green)
+                sourceHeader(
+                    title: "Things To Do",
+                    systemImage: "figure.walk",
+                    tint: .green,
+                    sourceText: viewModel.activitySourceLabel,
+                    sourceImage: viewModel.activities.contains { $0.isFromLiveSearch } ? "map.fill" : "shippingbox.fill"
+                )
 
                 VStack(spacing: 14) {
                     ForEach(viewModel.activities) { item in
@@ -196,8 +233,24 @@ struct HomeView: View {
             }
         }
     }
+
+    private func sourceHeader(title: String, systemImage: String, tint: Color, sourceText: String, sourceImage: String) -> some View {
+        ViewThatFits(in: .horizontal) {
+            HStack(alignment: .center, spacing: DesignSystem.Spacing.small) {
+                SectionTitle(title: title, systemImage: systemImage, tint: tint)
+                Spacer(minLength: DesignSystem.Spacing.small)
+                MetricPill(text: sourceText, systemImage: sourceImage)
+            }
+
+            VStack(alignment: .leading, spacing: DesignSystem.Spacing.small) {
+                SectionTitle(title: title, systemImage: systemImage, tint: tint)
+                MetricPill(text: sourceText, systemImage: sourceImage)
+            }
+        }
+    }
 }
 
 #Preview {
     HomeView()
+        .environmentObject(LocationManager())
 }

@@ -6,12 +6,19 @@ final class HomeViewModel: ObservableObject {
     @Published var viewState: ViewState = .loading
     @Published var location: String
     @Published var weather: Weather
+    @Published var weatherSourceLabel: String
     @Published var recommendation: DailyRecommendation
     @Published var foodSuggestions: [FoodSuggestion]
+    @Published var foodSourceLabel: String
     @Published var newsItems: [NewsItem]
+    @Published var newsSourceLabel: String
     @Published var activities: [ActivitySuggestion]
+    @Published var activitySourceLabel: String
 
     let currentDate: Date
+    private let weatherService: WeatherService
+    private let mapSearchService: MapSearchService
+    private let newsService: NewsService
     private var refreshCount = 0
 
     init(
@@ -21,28 +28,45 @@ final class HomeViewModel: ObservableObject {
         foodSuggestions: [FoodSuggestion] = MockDailyData.foodSuggestions,
         newsItems: [NewsItem] = MockDailyData.newsItems,
         activities: [ActivitySuggestion] = MockDailyData.activities,
-        currentDate: Date = Date()
+        currentDate: Date = Date(),
+        weatherService: WeatherService = WeatherService(),
+        mapSearchService: MapSearchService = MapSearchService(),
+        newsService: NewsService = NewsService()
     ) {
         self.location = location
         self.weather = weather
+        self.weatherSourceLabel = weather.isLive ? "Live Weather" : "Sample Weather"
         self.recommendation = recommendation ?? RecommendationEngine.makeRecommendation(weather: weather, on: currentDate)
         self.foodSuggestions = foodSuggestions
+        self.foodSourceLabel = foodSuggestions.contains { $0.isFromLiveSearch } ? "Live Nearby" : "Sample Suggestions"
         self.newsItems = newsItems
+        self.newsSourceLabel = newsItems.contains { $0.isFromLiveSource } ? "Live News" : "Sample News"
         self.activities = activities
+        self.activitySourceLabel = activities.contains { $0.isFromLiveSearch } ? "Live Nearby" : "Sample Suggestions"
         self.currentDate = currentDate
+        self.weatherService = weatherService
+        self.mapSearchService = mapSearchService
+        self.newsService = newsService
     }
 
-    func loadIfNeeded() async {
+    func loadIfNeeded(locationManager: LocationManager? = nil) async {
         guard viewState == .loading else { return }
 
         try? await Task.sleep(nanoseconds: 500_000_000)
+        await refreshWeatherIfPossible(locationManager: locationManager)
+        await refreshMapSuggestionsIfPossible(locationManager: locationManager)
+        await refreshNews()
+        recommendation = RecommendationEngine.makeRecommendation(weather: weather, on: Date())
         updateViewState()
     }
 
-    func refresh() async {
+    func refresh(locationManager: LocationManager? = nil) async {
         try? await Task.sleep(nanoseconds: 700_000_000)
 
         refreshCount += 1
+        await refreshWeatherIfPossible(locationManager: locationManager)
+        await refreshMapSuggestionsIfPossible(locationManager: locationManager)
+        await refreshNews()
         recommendation = RecommendationEngine.makeRecommendation(weather: weather, on: Date())
 
         if refreshCount.isMultiple(of: 2) {
@@ -54,6 +78,66 @@ final class HomeViewModel: ObservableObject {
         }
 
         updateViewState()
+    }
+
+    private func refreshWeatherIfPossible(locationManager: LocationManager?) async {
+        guard
+            let locationManager,
+            locationManager.isAuthorized,
+            let latestLocation = locationManager.latestLocation
+        else {
+            useSampleWeather(locationName: MockDailyData.location)
+            return
+        }
+
+        do {
+            weather = try await weatherService.fetchWeather(for: latestLocation)
+            location = locationManager.locationName
+            weatherSourceLabel = "Live Weather"
+        } catch {
+            useSampleWeather(locationName: locationManager.locationName)
+        }
+    }
+
+    private func useSampleWeather(locationName: String) {
+        weather = MockDailyData.weather
+        location = locationName.isEmpty ? MockDailyData.location : locationName
+        weatherSourceLabel = "Sample Weather"
+    }
+
+    private func refreshMapSuggestionsIfPossible(locationManager: LocationManager?) async {
+        guard
+            let locationManager,
+            locationManager.isAuthorized,
+            let latestLocation = locationManager.latestLocation
+        else {
+            useSampleMapSuggestions()
+            return
+        }
+
+        async let food = mapSearchService.fetchNearbyFood(from: latestLocation)
+        async let activities = mapSearchService.fetchNearbyActivities(from: latestLocation, weather: weather)
+
+        let fetchedFood = await food
+        let fetchedActivities = await activities
+
+        foodSuggestions = fetchedFood
+        self.activities = fetchedActivities
+        foodSourceLabel = fetchedFood.contains { $0.isFromLiveSearch } ? "Live Nearby" : "Sample Suggestions"
+        activitySourceLabel = fetchedActivities.contains { $0.isFromLiveSearch } ? "Live Nearby" : "Sample Suggestions"
+    }
+
+    private func useSampleMapSuggestions() {
+        foodSuggestions = MockDailyData.foodSuggestions
+        activities = MockDailyData.activities
+        foodSourceLabel = "Sample Suggestions"
+        activitySourceLabel = "Sample Suggestions"
+    }
+
+    private func refreshNews() async {
+        let fetchedNews = await newsService.fetchLocalNews(near: location)
+        newsItems = fetchedNews
+        newsSourceLabel = fetchedNews.contains { $0.isFromLiveSource } ? "Live News" : "Sample News"
     }
 
     private func updateViewState() {
@@ -101,7 +185,9 @@ final class HomeViewModel: ObservableObject {
                 DetailMetadata(label: "Rain chance", value: "\(weather.rainChance)%")
             ],
             actionTitle: "Save for Later",
-            favoriteID: nil
+            favoriteID: nil,
+            mapLaunchInfo: nil,
+            articleURL: nil
         )
     }
 
@@ -125,7 +211,9 @@ final class HomeViewModel: ObservableObject {
                 DetailMetadata(label: "Weather fit", value: weather.condition)
             ],
             actionTitle: "Save for Later",
-            favoriteID: nil
+            favoriteID: nil,
+            mapLaunchInfo: nil,
+            articleURL: nil
         )
     }
 
@@ -147,10 +235,16 @@ final class HomeViewModel: ObservableObject {
                 DetailMetadata(label: "Category", value: item.category),
                 DetailMetadata(label: "Distance", value: item.distance),
                 DetailMetadata(label: "Rating", value: item.rating),
-                DetailMetadata(label: "Weather fit", value: weather.rainChance > 60 ? "Good indoor option" : "Easy nearby meal")
-            ],
-            actionTitle: "Get Directions",
-            favoriteID: item.id
+                DetailMetadata(label: "Weather fit", value: weather.rainChance > 60 ? "Good indoor option" : "Easy nearby meal"),
+                DetailMetadata(label: "Source", value: item.isFromLiveSearch ? "Apple Maps" : "Sample Data")
+            ] + optionalMetadata([
+                ("Address", item.address),
+                ("Phone", item.phoneNumber)
+            ]),
+            actionTitle: "Open in Maps",
+            favoriteID: item.id,
+            mapLaunchInfo: makeMapLaunchInfo(latitude: item.latitude, longitude: item.longitude, name: item.mapItemName ?? item.name),
+            articleURL: nil
         )
     }
 
@@ -169,12 +263,17 @@ final class HomeViewModel: ObservableObject {
                 "Type: local headline"
             ],
             metadata: [
-                DetailMetadata(label: "Source", value: item.source),
+                DetailMetadata(label: "Source", value: item.sourceName),
                 DetailMetadata(label: "Time", value: item.time),
-                DetailMetadata(label: "Category", value: "Local news")
-            ],
+                DetailMetadata(label: "Category", value: "Local news"),
+                DetailMetadata(label: "Status", value: item.isFromLiveSource ? "Live RSS" : "Sample Data")
+            ] + optionalMetadata([
+                ("Article", item.url?.absoluteString)
+            ]),
             actionTitle: "Read Full Article",
-            favoriteID: item.id
+            favoriteID: item.id,
+            mapLaunchInfo: nil,
+            articleURL: item.url
         )
     }
 
@@ -193,12 +292,31 @@ final class HomeViewModel: ObservableObject {
                 "Effort: easy"
             ],
             metadata: [
+                DetailMetadata(label: "Category", value: item.category ?? item.locationHint),
                 DetailMetadata(label: "Location", value: item.locationHint),
                 DetailMetadata(label: "Duration", value: item.duration),
-                DetailMetadata(label: "Weather fit", value: weather.rainChance > 60 ? "Check conditions first" : "Good for today")
-            ],
-            actionTitle: "Get Directions",
-            favoriteID: item.id
+                DetailMetadata(label: "Weather fit", value: weather.rainChance > 60 ? "Check conditions first" : "Good for today"),
+                DetailMetadata(label: "Source", value: item.isFromLiveSearch ? "Apple Maps" : "Sample Data")
+            ] + optionalMetadata([
+                ("Address", item.address),
+                ("Indoor", item.isIndoor.map { $0 ? "Yes" : "No" })
+            ]),
+            actionTitle: "Open in Maps",
+            favoriteID: item.id,
+            mapLaunchInfo: makeMapLaunchInfo(latitude: item.latitude, longitude: item.longitude, name: item.title),
+            articleURL: nil
         )
+    }
+
+    private func optionalMetadata(_ values: [(String, String?)]) -> [DetailMetadata] {
+        values.compactMap { label, value in
+            guard let value, !value.isEmpty else { return nil }
+            return DetailMetadata(label: label, value: value)
+        }
+    }
+
+    private func makeMapLaunchInfo(latitude: Double?, longitude: Double?, name: String) -> MapLaunchInfo? {
+        guard let latitude, let longitude else { return nil }
+        return MapLaunchInfo(latitude: latitude, longitude: longitude, name: name)
     }
 }

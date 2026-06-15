@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct LocationPermissionView: View {
+    @EnvironmentObject private var locationManager: LocationManager
     @AppStorage("hasCompletedLocationSetup") private var hasCompletedLocationSetup = false
 
     var body: some View {
@@ -30,13 +31,25 @@ struct LocationPermissionView: View {
                         .multilineTextAlignment(.center)
                         .foregroundStyle(.secondary)
                         .fixedSize(horizontal: false, vertical: true)
+
+                    if let message = locationManager.authorizationMessage {
+                        Text(message)
+                            .font(.footnote)
+                            .multilineTextAlignment(.center)
+                            .foregroundStyle(.secondary)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .padding(.horizontal, DesignSystem.Spacing.small)
+                    }
                 }
 
                 VStack(spacing: DesignSystem.Spacing.small) {
                     Button {
-                        hasCompletedLocationSetup = true
+                        locationManager.requestAuthorization()
+                        if locationManager.isAuthorized {
+                            hasCompletedLocationSetup = true
+                        }
                     } label: {
-                        Label("Use Sample Location", systemImage: "mappin.and.ellipse")
+                        Label("Enable Location", systemImage: "location.fill")
                             .font(.headline)
                             .frame(maxWidth: .infinity)
                     }
@@ -44,9 +57,10 @@ struct LocationPermissionView: View {
                     .controlSize(.large)
 
                     Button {
+                        locationManager.useSampleLocation()
                         hasCompletedLocationSetup = true
                     } label: {
-                        Text("Enable Later")
+                        Text("Use Sample Location")
                             .font(.headline)
                             .frame(maxWidth: .infinity)
                     }
@@ -58,9 +72,15 @@ struct LocationPermissionView: View {
             }
             .padding(.horizontal, DesignSystem.Padding.screenHorizontal)
         }
+        .onChange(of: locationManager.authorizationStatus) { _, status in
+            if status == .authorizedWhenInUse || status == .authorizedAlways {
+                hasCompletedLocationSetup = true
+            }
+        }
     }
 }
 
 #Preview {
     LocationPermissionView()
+        .environmentObject(LocationManager())
 }

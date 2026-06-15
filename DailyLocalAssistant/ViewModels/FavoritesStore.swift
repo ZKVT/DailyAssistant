@@ -52,8 +52,10 @@ final class FavoritesStore: ObservableObject {
                         DetailMetadata(label: "Distance", value: item.distance),
                         DetailMetadata(label: "Rating", value: item.rating)
                     ],
-                    actionTitle: "Get Directions",
-                    favoriteID: item.id
+                    actionTitle: "Open in Maps",
+                    favoriteID: item.id,
+                    mapLaunchInfo: makeMapLaunchInfo(latitude: item.latitude, longitude: item.longitude, name: item.mapItemName ?? item.name),
+                    articleURL: nil
                 )
             }
 
@@ -78,8 +80,10 @@ final class FavoritesStore: ObservableObject {
                         DetailMetadata(label: "Duration", value: item.duration),
                         DetailMetadata(label: "Weather fit", value: "Check today's conditions")
                     ],
-                    actionTitle: "Get Directions",
-                    favoriteID: item.id
+                    actionTitle: "Open in Maps",
+                    favoriteID: item.id,
+                    mapLaunchInfo: makeMapLaunchInfo(latitude: item.latitude, longitude: item.longitude, name: item.title),
+                    articleURL: nil
                 )
             }
 
@@ -105,10 +109,17 @@ final class FavoritesStore: ObservableObject {
                         DetailMetadata(label: "Category", value: "Local news")
                     ],
                     actionTitle: "Read Full Article",
-                    favoriteID: item.id
+                    favoriteID: item.id,
+                    mapLaunchInfo: nil,
+                    articleURL: item.url
                 )
             }
 
         return foodPages + activityPages + newsPages
+    }
+
+    private func makeMapLaunchInfo(latitude: Double?, longitude: Double?, name: String) -> MapLaunchInfo? {
+        guard let latitude, let longitude else { return nil }
+        return MapLaunchInfo(latitude: latitude, longitude: longitude, name: name)
     }
 }

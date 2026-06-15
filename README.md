@@ -1,68 +1,130 @@
 # Daily Local Assistant
 
-Daily Local Assistant is a SwiftUI iOS MVP for a local daily lifestyle dashboard. It helps users quickly understand what to do today using mock weather, food suggestions, local news, activities, saved items, and preference settings.
+Daily Local Assistant is a SwiftUI iOS MVP for a local daily lifestyle dashboard. It helps users open the app once a day and quickly understand the weather, nearby food, activity options, local news, and saved places that matter for today.
 
-The current version is designed as a polished pre-API prototype. It uses mock data only and does not connect to WeatherKit, MapKit, news APIs, restaurant APIs, or a backend yet.
+The app is built as a portfolio-quality MVP with real Apple framework integrations where they make sense, plus reliable sample-data fallbacks so the experience remains usable when permissions, capabilities, network access, or local services are unavailable.
+
+## Portfolio Summary
+
+This project demonstrates a clean SwiftUI app architecture with onboarding, location permission handling, live weather, local search, RSS news, favorites, adaptive UI states, and polished detail flows. It is intentionally scoped as a practical lifestyle assistant rather than a social app, subscription product, or backend-heavy platform.
 
 ## Key Features
 
 - First-launch onboarding flow
-- Location setup placeholder without requesting real permission
-- Today dashboard with weather, food, news, activities, and a dynamic daily recommendation
-- Explore tab with local mock search and filters
-- Detail pages with metadata, placeholder actions, and favorite controls
-- Local favorites stored on device
-- Pull to refresh with simulated mock updates
+- Location setup with CoreLocation when-in-use permission
+- Live WeatherKit weather with sample weather fallback
+- Dynamic daily recommendation generated from current weather
+- MapKit local search for nearby restaurants, cafes, parks, museums, malls, and attractions
+- Weather-aware activity search for rainy, cold, sunny, and balanced days
+- Apple Maps opening for food and activity detail pages with coordinates
+- RSS-based local news service layer with mock fallback
+- Safari opening for news articles with URLs
+- Explore tab with search, filters, saved items, and empty states
+- Local favorites stored with `UserDefaults`
 - Loading, empty, and error state components
-- Settings saved locally with `@AppStorage`
-- Light mode and dark mode friendly UI
+- Pull to refresh for weather, food, activities, and news
+- Settings persisted with `@AppStorage`
+- Light mode and dark mode friendly visual design
 
 ## Tech Stack
 
 - Swift
 - SwiftUI
-- MVVM-style view models
-- `@AppStorage` and `UserDefaults` for lightweight local persistence
-- Mock data only
+- CoreLocation
+- WeatherKit
+- MapKit and `MKLocalSearch`
+- URLSession and XMLParser for RSS news
+- `@AppStorage` and `UserDefaults`
 - SF Symbols
+- Apple frameworks only, no third-party dependencies
 
-## Architecture Overview
+## Architecture
 
-- `DailyLocalAssistant/Models`: app data models, detail models, view state models
-- `DailyLocalAssistant/MockData`: local mock data for weather, food, news, and activities
+- `DailyLocalAssistant/Models`: weather, food, news, activity, detail, map launch, and view state models
+- `DailyLocalAssistant/MockData`: sample fallback data for the MVP
 - `DailyLocalAssistant/ViewModels`: home state, recommendation engine, favorites store
+- `DailyLocalAssistant/Services`: CoreLocation, WeatherKit, MapKit local search, and RSS news services
 - `DailyLocalAssistant/Views`: onboarding, location setup, tabs, home, explore, details, settings
 - `DailyLocalAssistant/Components`: reusable cards, rows, design system, loading, empty, and error states
 
-The code is structured so real services can be added later behind dedicated service layers without rewriting the core UI.
-
-## Current Status
-
-This is an App Store-quality MVP prototype focused on the local daily assistant experience. It is not production-connected yet. All displayed weather, recommendations, food, news, and activity content comes from mock data.
+The service layer is intentionally small and replaceable, so production APIs can be introduced later without rewriting the UI.
 
 ## Screenshots
 
-Add screenshots here when running the app from Xcode:
+Replace these placeholder paths with real screenshots exported from Xcode or the simulator:
 
-- Onboarding
-- Today dashboard
-- Explore search and filters
-- Detail page
-- Settings
+| Home Screen | Explore Screen |
+| --- | --- |
+| ![Home Screen](renders/home.png) | ![Explore Screen](renders/explore.png) |
+
+| Detail Screen | Settings Screen |
+| --- | --- |
+| ![Detail Screen](renders/detail.png) | ![Settings Screen](renders/settings.png) |
+
+| Onboarding Screen |
+| --- |
+| ![Onboarding Screen](renders/onboarding.png) |
+
+## App Icon Guidance
+
+Recommended app icon concept:
+
+- Modern iOS lifestyle assistant icon
+- Sun symbol
+- Map pin
+- Subtle city skyline
+- Soft gradient background
+- No text
+- Clean, premium, friendly style
+
+Asset requirements:
+
+- Provide a full App Store icon at `1024x1024`
+- Avoid transparency for the final app icon
+- Keep important visual elements centered and readable at small sizes
+- Export through Xcode asset catalogs using `Assets.xcassets/AppIcon.appiconset`
+- Test the icon on light and dark home screen wallpapers
+
+## Setup Instructions
+
+1. Open `DailyLocalAssistant.xcodeproj` in Xcode on macOS.
+2. Select an iPhone simulator or a physical iPhone.
+3. Configure signing for your development team.
+4. Run the app with `Cmd + R`.
+5. Complete onboarding and choose either live location or sample location.
+
+## WeatherKit Setup
+
+Live WeatherKit requires:
+
+- An Apple Developer account
+- WeatherKit capability enabled for the app identifier
+- Proper signing configuration in Xcode
+- A simulator or device that can provide location
+
+If WeatherKit is unavailable, the app falls back to sample weather.
+
+## Data And Fallbacks
+
+- Location denied or restricted: app continues with sample location
+- WeatherKit unavailable: sample weather is shown
+- MapKit local search failure: sample food and activity suggestions are shown
+- RSS/news fetch failure: sample news is shown
+- Missing map coordinates: detail page shows `Map location unavailable`
+- Missing news URL: detail page shows `Article link unavailable`
+- Empty favorites: Explore shows a friendly saved-items placeholder
+- Empty search results: Explore shows a reusable empty state
+
+## Current Status
+
+This is a final MVP polish pass suitable for portfolio presentation. It has live Apple framework integrations for location, weather, maps, and RSS-based news, with graceful sample-data fallback. There is no login, subscription, backend, AI chat, or third-party dependency.
 
 ## Future Improvements
 
-- Add real location permission through CoreLocation
-- Connect weather data through WeatherKit
-- Add restaurant discovery through a local places API
-- Add local news through a trusted news provider
-- Add map and directions support
-- Add richer saved places management
-- Add widget or notification support for the daily summary
-- Add unit tests for recommendation rules and favorites persistence
-
-## Notes
-
-- This app is iOS-only.
-- The UI text is English-only.
-- There is no login, subscription, backend, AI chat, or external API integration in the current version.
+- Add richer MapKit categories, sorting, and distance controls
+- Replace RSS with a dedicated local news API when ready
+- Add real directions actions and route previews
+- Add richer saved place management
+- Add home screen widgets for the daily summary
+- Add unit tests for recommendation rules, service fallbacks, and favorites persistence
+- Add UI tests for onboarding, permission fallback, search, and detail actions

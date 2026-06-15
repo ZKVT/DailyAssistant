@@ -1,13 +1,15 @@
+import MapKit
 import SwiftUI
 
 struct DetailView: View {
     @EnvironmentObject private var favoritesStore: FavoritesStore
+    @Environment(\.openURL) private var openURL
 
     let page: DetailPage
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 20) {
+            VStack(alignment: .leading, spacing: DesignSystem.Spacing.large) {
                 hero
                 metadataCard
 
@@ -43,9 +45,11 @@ struct DetailView: View {
                     }
                 }
 
+                mapUnavailableMessage
+                articleUnavailableMessage
                 actionButton
             }
-            .padding(20)
+            .padding(DesignSystem.Padding.screenHorizontal)
         }
         .background(Color(.systemGroupedBackground))
         .navigationTitle(page.title)
@@ -133,6 +137,7 @@ struct DetailView: View {
 
     private var actionButton: some View {
         Button {
+            handlePrimaryAction()
         } label: {
             Label(page.actionTitle, systemImage: actionIconName)
                 .font(.headline)
@@ -141,6 +146,79 @@ struct DetailView: View {
         .buttonStyle(.borderedProminent)
         .controlSize(.large)
         .tint(accentColor)
+        .disabled(isPrimaryActionUnavailable)
+        .opacity(isPrimaryActionUnavailable ? 0.62 : 1)
+    }
+
+    @ViewBuilder
+    private var mapUnavailableMessage: some View {
+        if isMapAction && page.mapLaunchInfo == nil {
+            HStack(alignment: .top, spacing: 10) {
+                Image(systemName: "map")
+                    .foregroundStyle(.secondary)
+
+                Text("Map location unavailable")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            .padding(.horizontal, 4)
+        }
+    }
+
+    @ViewBuilder
+    private var articleUnavailableMessage: some View {
+        if isArticleAction && page.articleURL == nil {
+            HStack(alignment: .top, spacing: 10) {
+                Image(systemName: "link")
+                    .foregroundStyle(.secondary)
+
+                Text("Article link unavailable")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            .padding(.horizontal, 4)
+        }
+    }
+
+    private var isMapAction: Bool {
+        page.actionTitle == "Open in Maps" || (page.kind == .food || page.kind == .activity)
+    }
+
+    private var isArticleAction: Bool {
+        page.actionTitle == "Read Full Article" || page.kind == .news
+    }
+
+    private var isPrimaryActionUnavailable: Bool {
+        (isMapAction && page.mapLaunchInfo == nil) || (isArticleAction && page.articleURL == nil)
+    }
+
+    private func handlePrimaryAction() {
+        if isMapAction {
+            openInMaps()
+        } else if isArticleAction {
+            openArticle()
+        }
+    }
+
+    private func openInMaps() {
+        guard let mapLaunchInfo = page.mapLaunchInfo else {
+            return
+        }
+
+        let coordinate = CLLocationCoordinate2D(latitude: mapLaunchInfo.latitude, longitude: mapLaunchInfo.longitude)
+        let placemark = MKPlacemark(coordinate: coordinate)
+        let mapItem = MKMapItem(placemark: placemark)
+        mapItem.name = mapLaunchInfo.name
+        mapItem.openInMaps(launchOptions: [
+            MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving
+        ])
+    }
+
+    private func openArticle() {
+        guard let articleURL = page.articleURL else { return }
+        openURL(articleURL)
     }
 
     private var overviewTitle: String {
@@ -161,11 +239,15 @@ struct DetailView: View {
     }
 
     private var actionIconName: String {
+        if isMapAction {
+            return "map.fill"
+        }
+
         switch page.kind {
         case .food, .activity:
             return "location.fill"
         case .news:
-            return "doc.text.fill"
+            return "safari.fill"
         default:
             return "bookmark.fill"
         }

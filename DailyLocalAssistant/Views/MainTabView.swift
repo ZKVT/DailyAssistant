@@ -1,16 +1,18 @@
 import SwiftUI
 
 struct MainTabView: View {
+    @EnvironmentObject private var locationManager: LocationManager
     @StateObject private var favoritesStore = FavoritesStore()
+    @StateObject private var homeViewModel = HomeViewModel()
 
     var body: some View {
         TabView {
-            HomeView()
+            HomeView(viewModel: homeViewModel)
                 .tabItem {
                     Label("Today", systemImage: "sun.max.fill")
                 }
 
-            ExploreView()
+            ExploreView(viewModel: homeViewModel)
                 .tabItem {
                     Label("Explore", systemImage: "map.fill")
                 }
@@ -21,9 +23,13 @@ struct MainTabView: View {
                 }
         }
         .environmentObject(favoritesStore)
+        .task {
+            await homeViewModel.loadIfNeeded(locationManager: locationManager)
+        }
     }
 }
 
 #Preview {
     MainTabView()
+        .environmentObject(LocationManager())
 }

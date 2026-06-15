@@ -12,4 +12,6 @@ struct DetailPage: Identifiable, Hashable {
     let metadata: [DetailMetadata]
     let actionTitle: String
     let favoriteID: String?
+    let mapLaunchInfo: MapLaunchInfo?
+    let articleURL: URL?
 }
