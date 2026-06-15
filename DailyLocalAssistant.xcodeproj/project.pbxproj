@@ -1,0 +1,477 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A10000000000000000000001 /* DailyLocalAssistantApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000001 /* DailyLocalAssistantApp.swift */; };
+		A10000000000000000000002 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000002 /* ContentView.swift */; };
+		A10000000000000000000003 /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000003 /* Weather.swift */; };
+		A10000000000000000000004 /* FoodSuggestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000004 /* FoodSuggestion.swift */; };
+		A10000000000000000000005 /* NewsItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000005 /* NewsItem.swift */; };
+		A10000000000000000000006 /* ActivitySuggestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000006 /* ActivitySuggestion.swift */; };
+		A10000000000000000000007 /* DailyRecommendation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000007 /* DailyRecommendation.swift */; };
+		A10000000000000000000008 /* DetailPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000008 /* DetailPage.swift */; };
+		A10000000000000000000009 /* MockDailyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000009 /* MockDailyData.swift */; };
+		A1000000000000000000000A /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000A /* HomeViewModel.swift */; };
+		A1000000000000000000000B /* CardContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000B /* CardContainer.swift */; };
+		A1000000000000000000000C /* SectionTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000C /* SectionTitle.swift */; };
+		A1000000000000000000000D /* MetricPill.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000D /* MetricPill.swift */; };
+		A1000000000000000000000E /* ListItemRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000E /* ListItemRow.swift */; };
+		A1000000000000000000000F /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000F /* HomeView.swift */; };
+		A10000000000000000000010 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000010 /* DetailView.swift */; };
+		A10000000000000000000011 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000011 /* SettingsView.swift */; };
+		A10000000000000000000012 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000012 /* Assets.xcassets */; };
+		A10000000000000000000013 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000014 /* MainTabView.swift */; };
+		A10000000000000000000014 /* ExploreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000015 /* ExploreView.swift */; };
+		A10000000000000000000015 /* RecommendationEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000016 /* RecommendationEngine.swift */; };
+		A10000000000000000000016 /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000017 /* ViewState.swift */; };
+		A10000000000000000000017 /* DetailKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000018 /* DetailKind.swift */; };
+		A10000000000000000000018 /* FavoritesStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000019 /* FavoritesStore.swift */; };
+		A10000000000000000000019 /* LoadingStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000001A /* LoadingStateView.swift */; };
+		A1000000000000000000001A /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000001B /* EmptyStateView.swift */; };
+		A1000000000000000000001B /* ErrorStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000001C /* ErrorStateView.swift */; };
+		A1000000000000000000001C /* DetailMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000001D /* DetailMetadata.swift */; };
+		A1000000000000000000001D /* DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000001E /* DesignSystem.swift */; };
+		A1000000000000000000001E /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000001F /* OnboardingView.swift */; };
+		A1000000000000000000001F /* LocationPermissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000020 /* LocationPermissionView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		A20000000000000000000001 /* DailyLocalAssistantApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyLocalAssistantApp.swift; sourceTree = "<group>"; };
+		A20000000000000000000002 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		A20000000000000000000003 /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
+		A20000000000000000000004 /* FoodSuggestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodSuggestion.swift; sourceTree = "<group>"; };
+		A20000000000000000000005 /* NewsItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsItem.swift; sourceTree = "<group>"; };
+		A20000000000000000000006 /* ActivitySuggestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivitySuggestion.swift; sourceTree = "<group>"; };
+		A20000000000000000000007 /* DailyRecommendation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyRecommendation.swift; sourceTree = "<group>"; };
+		A20000000000000000000008 /* DetailPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPage.swift; sourceTree = "<group>"; };
+		A20000000000000000000009 /* MockDailyData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDailyData.swift; sourceTree = "<group>"; };
+		A2000000000000000000000A /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		A2000000000000000000000B /* CardContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardContainer.swift; sourceTree = "<group>"; };
+		A2000000000000000000000C /* SectionTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionTitle.swift; sourceTree = "<group>"; };
+		A2000000000000000000000D /* MetricPill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricPill.swift; sourceTree = "<group>"; };
+		A2000000000000000000000E /* ListItemRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItemRow.swift; sourceTree = "<group>"; };
+		A2000000000000000000000F /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		A20000000000000000000010 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		A20000000000000000000011 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		A20000000000000000000012 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A20000000000000000000013 /* DailyLocalAssistant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DailyLocalAssistant.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A20000000000000000000014 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		A20000000000000000000015 /* ExploreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreView.swift; sourceTree = "<group>"; };
+		A20000000000000000000016 /* RecommendationEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationEngine.swift; sourceTree = "<group>"; };
+		A20000000000000000000017 /* ViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewState.swift; sourceTree = "<group>"; };
+		A20000000000000000000018 /* DetailKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailKind.swift; sourceTree = "<group>"; };
+		A20000000000000000000019 /* FavoritesStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesStore.swift; sourceTree = "<group>"; };
+		A2000000000000000000001A /* LoadingStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingStateView.swift; sourceTree = "<group>"; };
+		A2000000000000000000001B /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
+		A2000000000000000000001C /* ErrorStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorStateView.swift; sourceTree = "<group>"; };
+		A2000000000000000000001D /* DetailMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailMetadata.swift; sourceTree = "<group>"; };
+		A2000000000000000000001E /* DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystem.swift; sourceTree = "<group>"; };
+		A2000000000000000000001F /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		A20000000000000000000020 /* LocationPermissionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPermissionView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A30000000000000000000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A40000000000000000000001 = {
+			isa = PBXGroup;
+			children = (
+				A40000000000000000000002 /* DailyLocalAssistant */,
+				A40000000000000000000009 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A40000000000000000000002 /* DailyLocalAssistant */ = {
+			isa = PBXGroup;
+			children = (
+				A20000000000000000000001 /* DailyLocalAssistantApp.swift */,
+				A20000000000000000000002 /* ContentView.swift */,
+				A40000000000000000000003 /* Models */,
+				A40000000000000000000004 /* Views */,
+				A40000000000000000000005 /* ViewModels */,
+				A40000000000000000000006 /* MockData */,
+				A40000000000000000000007 /* Components */,
+				A20000000000000000000012 /* Assets.xcassets */,
+			);
+			path = DailyLocalAssistant;
+			sourceTree = "<group>";
+		};
+		A40000000000000000000003 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				A20000000000000000000003 /* Weather.swift */,
+				A20000000000000000000004 /* FoodSuggestion.swift */,
+				A20000000000000000000005 /* NewsItem.swift */,
+				A20000000000000000000006 /* ActivitySuggestion.swift */,
+				A20000000000000000000007 /* DailyRecommendation.swift */,
+				A2000000000000000000001D /* DetailMetadata.swift */,
+				A20000000000000000000008 /* DetailPage.swift */,
+				A20000000000000000000018 /* DetailKind.swift */,
+				A20000000000000000000017 /* ViewState.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		A40000000000000000000004 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A20000000000000000000014 /* MainTabView.swift */,
+				A2000000000000000000001F /* OnboardingView.swift */,
+				A20000000000000000000020 /* LocationPermissionView.swift */,
+				A2000000000000000000000F /* HomeView.swift */,
+				A20000000000000000000015 /* ExploreView.swift */,
+				A20000000000000000000010 /* DetailView.swift */,
+				A20000000000000000000011 /* SettingsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		A40000000000000000000005 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				A2000000000000000000000A /* HomeViewModel.swift */,
+				A20000000000000000000016 /* RecommendationEngine.swift */,
+				A20000000000000000000019 /* FavoritesStore.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		A40000000000000000000006 /* MockData */ = {
+			isa = PBXGroup;
+			children = (
+				A20000000000000000000009 /* MockDailyData.swift */,
+			);
+			path = MockData;
+			sourceTree = "<group>";
+		};
+		A40000000000000000000007 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				A2000000000000000000001E /* DesignSystem.swift */,
+				A2000000000000000000000B /* CardContainer.swift */,
+				A2000000000000000000000C /* SectionTitle.swift */,
+				A2000000000000000000000D /* MetricPill.swift */,
+				A2000000000000000000000E /* ListItemRow.swift */,
+				A2000000000000000000001A /* LoadingStateView.swift */,
+				A2000000000000000000001B /* EmptyStateView.swift */,
+				A2000000000000000000001C /* ErrorStateView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		A40000000000000000000009 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A20000000000000000000013 /* DailyLocalAssistant.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A50000000000000000000001 /* DailyLocalAssistant */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A90000000000000000000002 /* Build configuration list for PBXNativeTarget "DailyLocalAssistant" */;
+			buildPhases = (
+				A60000000000000000000001 /* Sources */,
+				A30000000000000000000001 /* Frameworks */,
+				A60000000000000000000002 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DailyLocalAssistant;
+			productName = DailyLocalAssistant;
+			productReference = A20000000000000000000013 /* DailyLocalAssistant.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A70000000000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					A50000000000000000000001 = {
+						CreatedOnToolsVersion = 16.0;
+					};
+				};
+			};
+			buildConfigurationList = A90000000000000000000001 /* Build configuration list for PBXProject "DailyLocalAssistant" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A40000000000000000000001;
+			productRefGroup = A40000000000000000000009 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A50000000000000000000001 /* DailyLocalAssistant */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A60000000000000000000002 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10000000000000000000012 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A60000000000000000000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10000000000000000000001 /* DailyLocalAssistantApp.swift in Sources */,
+				A10000000000000000000002 /* ContentView.swift in Sources */,
+				A10000000000000000000003 /* Weather.swift in Sources */,
+				A10000000000000000000004 /* FoodSuggestion.swift in Sources */,
+				A10000000000000000000005 /* NewsItem.swift in Sources */,
+				A10000000000000000000006 /* ActivitySuggestion.swift in Sources */,
+				A10000000000000000000007 /* DailyRecommendation.swift in Sources */,
+				A1000000000000000000001C /* DetailMetadata.swift in Sources */,
+				A10000000000000000000008 /* DetailPage.swift in Sources */,
+				A10000000000000000000017 /* DetailKind.swift in Sources */,
+				A10000000000000000000016 /* ViewState.swift in Sources */,
+				A10000000000000000000009 /* MockDailyData.swift in Sources */,
+				A1000000000000000000000A /* HomeViewModel.swift in Sources */,
+				A10000000000000000000018 /* FavoritesStore.swift in Sources */,
+				A1000000000000000000001D /* DesignSystem.swift in Sources */,
+				A1000000000000000000000B /* CardContainer.swift in Sources */,
+				A1000000000000000000000C /* SectionTitle.swift in Sources */,
+				A1000000000000000000000D /* MetricPill.swift in Sources */,
+				A1000000000000000000000E /* ListItemRow.swift in Sources */,
+				A10000000000000000000019 /* LoadingStateView.swift in Sources */,
+				A1000000000000000000001A /* EmptyStateView.swift in Sources */,
+				A1000000000000000000001B /* ErrorStateView.swift in Sources */,
+				A10000000000000000000013 /* MainTabView.swift in Sources */,
+				A1000000000000000000001E /* OnboardingView.swift in Sources */,
+				A1000000000000000000001F /* LocationPermissionView.swift in Sources */,
+				A1000000000000000000000F /* HomeView.swift in Sources */,
+				A10000000000000000000014 /* ExploreView.swift in Sources */,
+				A10000000000000000000010 /* DetailView.swift in Sources */,
+				A10000000000000000000011 /* SettingsView.swift in Sources */,
+				A10000000000000000000015 /* RecommendationEngine.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		A80000000000000000000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		A80000000000000000000002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A80000000000000000000003 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Daily Local";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.DailyLocalAssistant;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		A80000000000000000000004 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Daily Local";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.DailyLocalAssistant;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A90000000000000000000001 /* Build configuration list for PBXProject "DailyLocalAssistant" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A80000000000000000000001 /* Debug */,
+				A80000000000000000000002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A90000000000000000000002 /* Build configuration list for PBXNativeTarget "DailyLocalAssistant" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A80000000000000000000003 /* Debug */,
+				A80000000000000000000004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A70000000000000000000001 /* Project object */;
+}
