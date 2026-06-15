@@ -6,7 +6,7 @@ struct ExploreView: View {
     @State private var searchText = ""
     @State private var selectedFilter: ExploreFilter = .all
 
-    init(viewModel: HomeViewModel = HomeViewModel()) {
+    init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
     }
 
@@ -353,6 +353,6 @@ private struct ExploreItem: Identifiable {
 }
 
 #Preview {
-    ExploreView()
+    ExploreView(viewModel: HomeViewModel())
         .environmentObject(FavoritesStore())
 }

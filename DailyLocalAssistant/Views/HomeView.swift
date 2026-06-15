@@ -4,7 +4,7 @@ struct HomeView: View {
     @EnvironmentObject private var locationManager: LocationManager
     @ObservedObject var viewModel: HomeViewModel
 
-    init(viewModel: HomeViewModel = HomeViewModel()) {
+    init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
     }
 
@@ -251,6 +251,6 @@ struct HomeView: View {
 }
 
 #Preview {
-    HomeView()
+    HomeView(viewModel: HomeViewModel())
         .environmentObject(LocationManager())
 }
